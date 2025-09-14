@@ -1,6 +1,6 @@
-Run npm i in FloodSmart directory to install dependencies
+Run 'npm i' in FloodSmart directory to install dependencies
 
-.env should have MONGO_CONNECTION variable for MongoDB connection
+Put MongoDB connection info in .env file
 
 Run NodeRed with ' node-red ' in terminal and import NodeRED/flow.json
 
