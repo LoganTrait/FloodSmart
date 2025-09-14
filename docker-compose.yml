@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  data-receipt:
+    build: ./services/data_receipt
+    environment:
+      - MONGO_CONNECTION=${MONGO_CONNECTION}
+    ports:
+      - "4000:3000"
+
+  alert:
+    build: ./services/alert
+    environment:
+      - MONGO_CONNECTION=${MONGO_CONNECTION}
+    ports:
+      - "4001:3000"
+
+  analytics:
+    build: ./services/analytics
+    environment:
+      - MONGO_CONNECTION=${MONGO_CONNECTION}
+    ports:
+      - "4002:3001"
+
+  dashboard:
+    build: ./services/dashboard
+    ports:
+      - "4003:3002"

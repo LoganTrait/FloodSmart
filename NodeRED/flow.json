@@ -1,0 +1,212 @@
+[
+    {
+        "id": "b7c87ea70875a016",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ebe848e44415319b",
+        "type": "mqtt in",
+        "z": "b7c87ea70875a016",
+        "name": "Water Level In",
+        "topic": "/floodsmart/waterlevel",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "6f80a719751206d2",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 550,
+        "y": 320,
+        "wires": [
+            [
+                "2cb8474d8898c58a"
+            ]
+        ]
+    },
+    {
+        "id": "0901e8e22ad10175",
+        "type": "mqtt in",
+        "z": "b7c87ea70875a016",
+        "name": "Rainfall In",
+        "topic": "/floodsmart/rainfall",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "6f80a719751206d2",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 550,
+        "y": 400,
+        "wires": [
+            [
+                "9182cd813e56c47f"
+            ]
+        ]
+    },
+    {
+        "id": "2cb8474d8898c58a",
+        "type": "json",
+        "z": "b7c87ea70875a016",
+        "name": "Parse Water JSON",
+        "x": 780,
+        "y": 320,
+        "wires": [
+            [
+                "3bb360581d59f24d",
+                "9808cbb06da17f86"
+            ]
+        ]
+    },
+    {
+        "id": "9182cd813e56c47f",
+        "type": "json",
+        "z": "b7c87ea70875a016",
+        "name": "Parse Rain JSON",
+        "x": 780,
+        "y": 400,
+        "wires": [
+            [
+                "ce0a38916d1a0797",
+                "9808cbb06da17f86"
+            ]
+        ]
+    },
+    {
+        "id": "3bb360581d59f24d",
+        "type": "switch",
+        "z": "b7c87ea70875a016",
+        "name": "Check Water >150cm",
+        "property": "payload.waterLevel",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "150",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1050,
+        "y": 320,
+        "wires": [
+            [
+                "9dd2310ddadc0354"
+            ]
+        ]
+    },
+    {
+        "id": "ce0a38916d1a0797",
+        "type": "switch",
+        "z": "b7c87ea70875a016",
+        "name": "Check Rain >15mm",
+        "property": "payload.rainfall",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "15",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1050,
+        "y": 400,
+        "wires": [
+            [
+                "9dd2310ddadc0354"
+            ]
+        ]
+    },
+    {
+        "id": "9808cbb06da17f86",
+        "type": "http request",
+        "z": "b7c87ea70875a016",
+        "name": "Save to Mongo API",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:3000/api/sensor",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1050,
+        "y": 480,
+        "wires": [
+            [
+                "60ce7615bdeace18"
+            ]
+        ]
+    },
+    {
+        "id": "9dd2310ddadc0354",
+        "type": "debug",
+        "z": "b7c87ea70875a016",
+        "name": "Alert",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "60ce7615bdeace18",
+        "type": "debug",
+        "z": "b7c87ea70875a016",
+        "name": "Mongo Save Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1320,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "6f80a719751206d2",
+        "type": "mqtt-broker",
+        "name": "Hive MQTT",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
